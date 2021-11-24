@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html>
    <div class="col-md-8">
-        <p><span class="badge bg-success">{{ counter }}</span> Scrap Results for <a
-                href="{{ url }}"> {{ url }}</a> </p>
-        <div class="bg-white shadow p-4 rounded results">
-            {% if results %}
-            {% for result in results %}
-            <p> {{ result | join(' ') }} </p>
-            {% endfor %}
-            {% endif %}
-            {% for path in image_paths %}
-            <a href=" {{  path }} "> <img src=" {{ path }} " class="img"> </a>
-            {% endfor %}
-        </div>
-        {% if image_paths %}
-        <a href="{{url_for('downloader')}}" class="btn btn-primary m-2" id="download">Download
-            Images<i class="bi bi-cloud-arrow-down-fill m-2"></i></a>
-        {% endif %}
-</div>
-
+       <p> {{table}} </p>
+   </div>
 </html>
