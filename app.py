@@ -1,3 +1,4 @@
+import pandas as pd
 from flask import (
     Flask,
     render_template,
@@ -23,14 +24,18 @@ def index():
     if requests.get(URL):
         html_content = requests.get(URL).text
         soup = BeautifulSoup(html_content, "lxml")
-        rows = soup.find_all("tr")
-        count = len(rows)
-        for row in rows:
-            print('{}'.format(row.find_all("td")))
-            cell = row.find_all("td")
-            data_lists.append([row.get_text('//')])
-            count = count - 1
-        return test_template(data_lists)
+        table1 = soup.find('table')
+        headers = []
+        for i in table1.find_all('th'):
+            tittle = i.text
+            data_lists.append(tittle)
+        my_data = pd.DataFrame(columns=data_lists)
+        for j in table1.find_all('tr')[1:]:
+            row_data = j.find_all('td')
+            row = [i.text for i in row_data]
+            length = len(my_data)
+            my_data.loc[length] = row
+        return test_template(my_data)
 
 
 @app.route('/test_template/')
