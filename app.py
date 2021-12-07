@@ -20,16 +20,12 @@ URL = 'https://www.ine.gub.uy/indicadores?indicadorCategoryId=42887'
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    data_lists = []
-    if requests.get(URL):
-        html_content = requests.get(URL).text
-        soup = BeautifulSoup(html_content, "lxml")
+    response = requests.get(URL)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "lxml")
         table1 = soup.find('table')
-        headers = []
-        for i in table1.find_all('th'):
-            tittle = i.text
-            data_lists.append(tittle)
-        my_data = pd.DataFrame(columns=data_lists)
+        columns = [title.text for title in table1.find_all('th')]
+        my_data = pd.DataFrame(columns=columns)
         index_values = []
         for j in table1.find_all('tr')[1:]:
             row_data = j.find_all('td')
