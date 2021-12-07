@@ -30,9 +30,14 @@ def index():
             tittle = i.text
             data_lists.append(tittle)
         my_data = pd.DataFrame(columns=data_lists)
+        index_values = []
         for j in table1.find_all('tr')[1:]:
             row_data = j.find_all('td')
             row = [i.text for i in row_data]
+            for i in row_data:
+                index_values.append(i.text)
+                print('index {}'.format(index_values))
+            print('Ros {}'.format(row))
             length = len(my_data)
             my_data.loc[length] = row
         return test_template(my_data)
